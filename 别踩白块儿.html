@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>别踩白块儿</title>
+<link rel="stylesheet" type="text/css" href="baicss.css">
+</head>
+
+<body>
+<div id="big">
+	<!-- 游戏开始界面 -->
+	<div id="title">
+		<b>别&nbsp;踩&nbsp;</b><i>白</i>&nbsp;<i>块</i>&nbsp;<b>儿</b>
+		<button class="btn">进入游戏</button><button class="btn">退出游戏</button>
+	</div>
+	<!-- 模式选择界面 -->
+	<div id="pattern"></div>
+	<!-- 游戏界面 -->
+	<div id="main">
+		<h1 id="score">0</h1>
+		<div id="container"></div>
+	</div>
+</div>
+
+<script>
+	let clock=null;	//定时器操作
+	let state=0;	//初始化状态，0是开始，1是进行中，2是暂停，3是失败
+	let speed=5;	//速度
+	let st=1;		//开始按钮
+	let patte=0;	//模式，对应下方数组
+	const patterns=["经典","街机","极速","接力","街机+","随机","设置","曲库"]
+
+	//创建div，className是类名
+	function cdiv(className){
+		let div=document.createElement('div');
+		div.className=className;
+		return div;
+	}
+
+	//创建div.row
+	function crow(){
+		let row=cdiv('row');
+		let classes = createSn();
+		for (let i = 0; i <=3; i++) {
+			row.appendChild(cdiv(classes[i]));
+		}
+		let con=$('#container');
+		if(con.firstChild==null){
+			con.appendChild(row);
+		}else{
+			con.insertBefore(row,con.firstChild);
+		}
+
+	}
+
+	//创建模式选择界面
+	function pattern(){
+		for (let i = 0; i < patterns.length; i++) {
+			let div=null;
+			i==0||i==3||i==4||i==7?div=cdiv('patternChild'):div=cdiv('patternChilds');
+			div.innerText=patterns[i];
+			$("#pattern").appendChild(div);
+		}
+	}
+
+	//获取单个对象
+	function $(id){
+		return document.querySelector(id);
+	}
+	//获取多个对象
+	function $$(ids){
+		return document.querySelectorAll(ids);
+	}
+
+	//返回一个数组，随机其中一个，值为cell black ，其他三个为cell
+	function createSn(){
+		let arr=['cell','cell','cell','cell'];
+		let i=Math.floor(Math.random()*4);
+		arr[i]='cell black';
+		return arr;
+	}
+
+	//动画
+	function move(){
+		let con=$('#container');
+		let top=parseInt(con.offsetTop);
+		top+=speed;
+		con.style.top=top+'px';
+		
+		if(top>0){
+			crow();
+			con.style.top='-150px';
+			drow();
+		}else if(top>(-150+speed)){
+			if(con.lastChild.pass!=1){
+				alert('你输了！');
+				clearInterval(clock);
+				state=3;
+			}
+		}
+	}
+
+	//删除最后一行
+	function drow(){
+		let con=$('#container');
+		con.removeChild(con.lastChild);
+	}
+
+	//进入或者退出游戏
+	function EnterOrExit(){
+		let btn=document.querySelectorAll(".btn");
+		btn[0].onclick=function(){
+			$("#title").style.display="none";
+		}
+		btn[1].onclick=function(){
+			window.close();
+		}
+	}
+
+	//模式选择
+	function mode(){
+		$('#pattern').onclick=function(ev){
+		let score = ev.target.innerText;
+		for (let i = 0; i < patterns.length; i++) {
+			if(score==patterns[i]){
+				patte=i;
+				break;
+			}
+		}
+		}
+	}
+
+	//判断是否正确
+	function judge(ev){
+		if(state==3){
+			alert('您已经输了，请重新开始！');
+			return;
+		}
+		if(ev.target.innerText=='开始'){
+			if(st){
+				clock=setInterval('move()',30);
+				st=0;
+			}
+		}else if(st!=0){
+			alert("请先点击开始！");
+		}else if(ev.target.className.indexOf('black')==-1&&ev.target.className.indexOf('cell2')==-1){
+			alert('您输了！您的成绩是：'+$('#score').innerText);
+			clearInterval(clock);
+			state=3;
+		}else{
+			if(ev.target.parentNode.pass!=1){
+				ev.target.className='cell2';
+				ev.target.parentNode.pass=1;
+				score();
+			}
+		}
+	}
+
+	//加速和加分函数，街机模式
+	function score(){
+		let newscore=parseInt($('#score').innerText)+1;
+		$('#score').innerText=newscore;
+		if(newscore%10==0)speed+=1;
+	}
+
+
+	//初始化
+	function init(){
+		//初始化模式选择界面
+		pattern();
+		for (var i = 0; i < 4; i++) {
+			crow();
+		}
+		let row=cdiv('start');
+		row.innerHTML='开始';
+		row.pass=1;
+		$('#container').appendChild(row);
+
+		EnterOrExit();
+		mode();
+		$('#main').onclick=function(ev){
+			judge(ev);
+		}
+	}
+
+	
+	init();		//游戏初始化
+
+	
+
+
+
+
+
+
+
+
+	//另类获取高度位置：window.getComputedStyle('con',null)['top']
+</script>
+</body>
+</html>

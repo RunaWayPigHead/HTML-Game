@@ -1,0 +1,159 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+body{
+	background-color: gray;
+}
+/*包裹所有的div*/
+#big{
+	height: 608px;
+	width: 500px;
+	margin: auto auto;
+	position: relative;
+	background-color: gray;
+}
+/*计数*/
+#score{
+	color:red;
+	position: absolute;
+	z-index: 1;
+	left:245px;
+}
+/*最大的div*/
+#main{
+	height: 600px;
+	width: 500px;
+	background-color: gray;
+	border:2px black solid;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+}
+/*第二层div*/
+#container{
+	width: 100%;
+	height: 600px;
+	position: relative;
+	top: -150px;
+}
+/*一整行的div*/
+.row{
+	height: 25%;
+	width:100%;
+	position: relative;
+}
+/*四个小div*/
+.cell{
+	height: 100%;
+	width: 25%;
+	float: left;
+	outline: 1px black solid;
+	background-color: white;
+}
+.cell2{
+	height: 100%;
+	width: 25%;
+	float: left;
+	outline: 1px black solid;
+	background-color: gray;
+}
+/*黑块*/
+.black{
+	background-color: black;
+	outline: 1px black solid;
+}
+.start{
+	height: 100%;
+	background-color: black;
+	color:white;
+	line-height: 150px;
+	text-align: center;
+	font-size: 34px;
+}
+div:hover{
+	cursor: pointer;
+}
+
+#title{
+	height: 60%;
+	width: 504px;
+	position: absolute;
+	z-index: 10;
+	background-color: white;
+	text-align: center;
+	font-size: 50px;
+	padding-top: 250px;
+}
+#title>i{
+	padding: 5px;
+	background-color: black;
+	color:white;
+	outline: 2px black solid;
+}
+.btn{
+	position: relative;
+	top: 50px;
+	height: 50px;
+	width: 100px;
+	background-color: black;
+	border: 0px;
+	color: white;
+	font-size: 20px;
+}
+.btn:last-child{
+	left: 20px;
+}
+#pattern{
+	height: 100%;
+	width: 504px;
+	position: absolute;
+	background-color: white;
+	z-index: 9;
+}
+.patternChild{
+	height: 25%;
+	width: 50%;
+	float: left;
+	text-align: center;
+	background-color: white;
+	font-size: 34px;
+	line-height: 150px;
+}
+.patternChilds{
+	height: 25%;
+	width: 50%;
+	float: left;
+	text-align: center;
+	background-color: black;
+	color:white;
+	font-size: 34px;
+	line-height: 150px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
