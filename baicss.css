@@ -9,7 +9,7 @@ body{
 #big{
 	height: 608px;
 	width: 500px;
-	margin: auto auto;
+	margin: 10px auto;
 	position: relative;
 	background-color: gray;
 }
@@ -119,6 +119,7 @@ div:hover{
 	background-color: white;
 	font-size: 34px;
 	line-height: 150px;
+	position: relative;
 }
 .patternChilds{
 	height: 25%;
@@ -129,14 +130,24 @@ div:hover{
 	color:white;
 	font-size: 34px;
 	line-height: 150px;
+	position: relative;
 }
-
-
-
-
-
-
-
+#pattern>div:hover{
+	color:red;
+	font-weight: bold;
+}
+#time{
+	color: red;
+	position: absolute;
+	z-index: 2;
+}
+@keyframes ToLeft{
+	0% {transform:rotate(0deg);}
+	100% {transform:rotate(360deg);}
+}
+.btn:hover{
+	animation: ToLeft 1s;
+}
 
 
 

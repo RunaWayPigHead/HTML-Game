@@ -8,6 +8,7 @@
 
 <body>
 <div id="big">
+	<h2 id="time"></h2>
 	<!-- 游戏开始界面 -->
 	<div id="title">
 		<b>别&nbsp;踩&nbsp;</b><i>白</i>&nbsp;<i>块</i>&nbsp;<b>儿</b>
@@ -28,7 +29,9 @@
 	let speed=5;	//速度
 	let st=1;		//开始按钮
 	let patte=0;	//模式，对应下方数组
-	const patterns=["经典","街机","极速","接力","街机+","随机","设置","曲库"]
+	let jiasu=1;	//自增加速度
+	let timeo=null;
+	const patterns=["经典","街机","极速","限时","街机+","随机","设置","曲库"]
 
 	//创建div，className是类名
 	function cdiv(className){
@@ -100,6 +103,26 @@
 		}
 	}
 
+	function movetwo(){
+		let con=$('#container');
+		let top=parseInt(con.offsetTop);
+		
+		top+=speed;
+		con.style.top=top+'px';
+		
+		if(top>-150){
+			crow();
+			con.style.top='-150px';
+			drow();
+		}else if(top>(-150+speed)){
+			if(con.lastChild.pass!=1){
+				alert('你输了！');
+				clearInterval(clock);
+				state=3;
+			}
+		}
+	}
+
 	//删除最后一行
 	function drow(){
 		let con=$('#container');
@@ -117,19 +140,49 @@
 		}
 	}
 
+	//**
 	//模式选择
 	function mode(){
 		$('#pattern').onclick=function(ev){
-		let score = ev.target.innerText;
-		for (let i = 0; i < patterns.length; i++) {
-			if(score==patterns[i]){
-				patte=i;
-				break;
+			let score = ev.target.innerText;
+			for (let i = 0; i < patterns.length; i++) {
+				if(score==patterns[i]){
+					patte=i;
+					break;
+				}
 			}
-		}
+			switch(patte){
+				case 0:none();break;
+				case 1:none();speed=5;jiasu=1;break;
+				case 2:none();speed=8;jiasu=2;break;
+				case 3:none();speed=5;jiasu=1;break;
+				case 4:alert("该模式暂未开放！敬请期待");break;
+				case 5:alert("该模式暂未开放！敬请期待");break;
+				case 6:alert("设置暂未开放！敬请期待");break;
+				case 7:alert("曲库暂未开放！敬请期待");break;
+			}
 		}
 	}
 
+	//隐藏选择界面
+	function none(){
+		$("#pattern").style.display="none";
+	}
+	
+	function time(){
+		let times=15;
+		$('#time').innerText="时间："+times;
+		timeo=setInterval(function(){
+			$('#time').innerText="时间："+times--;
+			if(times<0){
+				alert("时间到了，您的成绩是："+$('#score').innerText);
+				if(clock!=null)clearInterval(clock);
+				if(timeo!=null)clearInterval(timeo);
+			}
+		},1000)
+	}
+
+	//**
 	//判断是否正确
 	function judge(ev){
 		if(state==3){
@@ -138,14 +191,20 @@
 		}
 		if(ev.target.innerText=='开始'){
 			if(st){
-				clock=setInterval('move()',30);
+				switch(patte){
+					case 0:speed=150;move();time();break;
+					case 1:clock=setInterval('move()',30);break;
+					case 2:clock=setInterval('move()',30);break;
+					case 3:clock=setInterval('move()',30);time();break;
+				}
 				st=0;
 			}
 		}else if(st!=0){
 			alert("请先点击开始！");
 		}else if(ev.target.className.indexOf('black')==-1&&ev.target.className.indexOf('cell2')==-1){
 			alert('您输了！您的成绩是：'+$('#score').innerText);
-			clearInterval(clock);
+			if(clock!=null)clearInterval(clock);
+			if(timeo!=null)clearInterval(timeo);
 			state=3;
 		}else{
 			if(ev.target.parentNode.pass!=1){
@@ -156,11 +215,13 @@
 		}
 	}
 
+	//**
 	//加速和加分函数，街机模式
 	function score(){
 		let newscore=parseInt($('#score').innerText)+1;
 		$('#score').innerText=newscore;
-		if(newscore%10==0)speed+=1;
+		if(newscore%10==0)speed+=jiasu;
+		if(patte==0)movetwo();
 	}
 
 
@@ -183,7 +244,16 @@
 		}
 	}
 
-	
+	/*
+	function animation(){
+		let div=$("#pattern").querySelectorAll("div");
+		for (var i = 0; i < div.length; i++) {
+			if(i%2==0){
+				div[i].style.left="-100px";
+			}
+		}
+	}
+	*/
 	init();		//游戏初始化
 
 	
