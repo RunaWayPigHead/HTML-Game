@@ -8,7 +8,7 @@ body{
 /*包裹所有的div*/
 #big{
 	height: 608px;
-	width: 500px;
+	width: 502px;
 	margin: 10px auto;
 	position: relative;
 	background-color: gray;
@@ -26,10 +26,9 @@ body{
 	height: 600px;
 	width: 500px;
 	background-color: gray;
-	border:2px black solid;
+	outline:2px black solid;
 	margin: 0px auto;
 	position: relative;
-	overflow: hidden;
 }
 /*第二层div*/
 #container{
@@ -161,7 +160,7 @@ button:last-child:hover{
 
 @keyframes ToLeft{
 	0% {transform:translate(0px);}
-	100% {transform:translate(-350px);}
+	100% {transform:translate(-800px);}
 }
 @keyframes ToRight{
 	0% {transform:translate(0px);}
