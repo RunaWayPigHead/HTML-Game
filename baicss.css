@@ -168,6 +168,14 @@ button:last-child:hover{
 	100% {transform:translate(800px);}
 }
 
+@keyframes rotate{
+	0% {transform:rotate(0deg);}
+	100% {transform:rotate(360deg);}
+}
+i{
+	display: inline-block;
+	animation: rotate 10s;
+}
 
 
 
