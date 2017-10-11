@@ -12,6 +12,7 @@ body{
 	margin: 10px auto;
 	position: relative;
 	background-color: gray;
+	overflow: hidden;
 }
 /*计数*/
 #score{
@@ -90,6 +91,7 @@ div:hover{
 	background-color: black;
 	color:white;
 	outline: 2px black solid;
+	animation: rotate 1s;
 }
 .btn{
 	position: relative;
@@ -101,14 +103,23 @@ div:hover{
 	color: white;
 	font-size: 20px;
 }
+.lef{
+	animation: dong 2.5s;
+}
 .btn:last-child{
 	left: 20px;
+	animation: dong 2s;
+}
+.lef:hover{
+	background-color: gray;
+}
+button:last-child:hover{
+	background-color: red;
 }
 #pattern{
 	height: 100%;
 	width: 504px;
 	position: absolute;
-	background-color: white;
 	z-index: 9;
 }
 .patternChild{
@@ -141,16 +152,21 @@ div:hover{
 	position: absolute;
 	z-index: 2;
 }
+@keyframes dong{
+	0% {transform:translate(0px,-350px);}
+	25% {transform:translate(0px,0px);}
+	50% {transform:translate(0px,-20px);}
+	100% {transform:translate(0px,0px);}
+}
+
 @keyframes ToLeft{
-	0% {transform:rotate(0deg);}
-	100% {transform:rotate(360deg);}
+	0% {transform:translate(0px);}
+	100% {transform:translate(-350px);}
 }
-.btn:hover{
-	animation: ToLeft 1s;
+@keyframes ToRight{
+	0% {transform:translate(0px);}
+	100% {transform:translate(800px);}
 }
-
-
-
 
 
 

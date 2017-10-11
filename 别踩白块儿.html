@@ -11,8 +11,8 @@
 	<h2 id="time"></h2>
 	<!-- 游戏开始界面 -->
 	<div id="title">
-		<b>别&nbsp;踩&nbsp;</b><i>白</i>&nbsp;<i>块</i>&nbsp;<b>儿</b>
-		<button class="btn">进入游戏</button><button class="btn">退出游戏</button>
+		<b>别&nbsp;踩&nbsp;</b><i class="ii">白</i>&nbsp;<i class="ii">块</i>&nbsp;<b>儿</b>
+		<button class="btn lef">进入游戏</button><button class="btn">退出游戏</button>
 	</div>
 	<!-- 模式选择界面 -->
 	<div id="pattern"></div>
@@ -30,7 +30,6 @@
 	let st=1;		//开始按钮
 	let patte=0;	//模式，对应下方数组
 	let jiasu=1;	//自增加速度
-	let timeo=null;
 	const patterns=["经典","街机","极速","限时","街机+","随机","设置","曲库"]
 
 	//创建div，className是类名
@@ -136,7 +135,7 @@
 			$("#title").style.display="none";
 		}
 		btn[1].onclick=function(){
-			window.close();
+			if(confirm('确定要退出吗'))window.close();
 		}
 	}
 
@@ -151,11 +150,22 @@
 					break;
 				}
 			}
+			let sum=0;
+			let time=setInterval(function(){
+				if(sum%2==0)$$("#pattern>div")[sum].style['animation']="ToLeft 3s";
+				else $$("#pattern>div")[sum].style['animation']="ToRight 3s";
+				sum++;
+				if(sum%2==0)$$("#pattern>div")[sum].style['animation']="ToLeft 3s";
+				else $$("#pattern>div")[sum].style['animation']="ToRight 3s";
+				sum++;
+				if(sum==$$("#pattern>div").length)clearInterval(time);
+			},500);
+			
 			switch(patte){
-				case 0:none();break;
-				case 1:none();speed=5;jiasu=1;break;
-				case 2:none();speed=8;jiasu=2;break;
-				case 3:none();speed=5;jiasu=1;break;
+				case 0:setTimeout(none,3000);break;
+				case 1:setTimeout(none,3000);speed=5;jiasu=1;break;
+				case 2:setTimeout(none,3000);speed=8;jiasu=2;break;
+				case 3:setTimeout(none,3000);speed=5;jiasu=1;break;
 				case 4:alert("该模式暂未开放！敬请期待");break;
 				case 5:alert("该模式暂未开放！敬请期待");break;
 				case 6:alert("设置暂未开放！敬请期待");break;
@@ -172,12 +182,11 @@
 	function time(){
 		let times=15;
 		$('#time').innerText="时间："+times;
-		timeo=setInterval(function(){
+		clock=setInterval(function(){
 			$('#time').innerText="时间："+times--;
 			if(times<0){
 				alert("时间到了，您的成绩是："+$('#score').innerText);
 				if(clock!=null)clearInterval(clock);
-				if(timeo!=null)clearInterval(timeo);
 			}
 		},1000)
 	}
@@ -204,7 +213,6 @@
 		}else if(ev.target.className.indexOf('black')==-1&&ev.target.className.indexOf('cell2')==-1){
 			alert('您输了！您的成绩是：'+$('#score').innerText);
 			if(clock!=null)clearInterval(clock);
-			if(timeo!=null)clearInterval(timeo);
 			state=3;
 		}else{
 			if(ev.target.parentNode.pass!=1){
